@@ -17,8 +17,12 @@ def getNomCommuneCodeCommuneFromCodePostal(codePostal, db):
 
 def getNomCommuneFromCodeCommune(codeCommune, db):
     curseur = db.cursor()
-    sql = f"select Nom_de_la_commune from datascommunes where Code_commune_INSEE = {codeCommune}"
-    curseur.execute(sql)
+    sql = """
+          select Nom_de_la_commune
+          from datascommunes
+          where Code_commune_INSEE = %s \
+          """
+    curseur.execute(sql, (codeCommune,))
     res = curseur.fetchone()
     curseur.close()
     if len(res) > 0:
@@ -27,11 +31,14 @@ def getNomCommuneFromCodeCommune(codeCommune, db):
 
 def getCodePostalFromCodeCommune(codeCommune, db):
     curseur = db.cursor()
-    sql = f"select Code_postal from datascommunes where Code_commune_INSEE = {codeCommune}"
-    curseur.execute(sql)
+    sql = """
+          select Code_postal 
+          from datascommunes 
+          where Code_commune_INSEE = %s
+          """
+    curseur.execute(sql, (codeCommune,))
     res = curseur.fetchone()
     curseur.close()
-    print(res)
     if len(res) > 0:
         return res[0]
     return None
@@ -44,7 +51,6 @@ def get_weather(city):
         response = requests.get(url)
         if response.ok:
             data = response.json()
-            print(data)
             return {
                 "description": data["weather"][0]["description"],
                 "temp": data["main"]["temp"],
