@@ -1,0 +1,75 @@
+<!DOCTYPE>
+<html lang="fr">
+<head>
+    <title>Météo</title>
+    <link href="/static/styles.css" rel="stylesheet">
+</head>
+<body>
+    <h1>Rechercher la météo</h1>
+
+    <!-- Formulaire CP -->
+    {% if not communes and not weather or (city and weather) %}
+    <form method="post" class="form">
+        <label>
+            <input
+                    type="text"
+                    name="cp"
+                    placeholder="Code postal"
+                    required
+                    pattern="^\d{4,5}$"
+            >
+        </label>
+        <button type="submit" class="button">Rechercher</button>
+    </form>
+    {% endif %}
+
+    <!-- Choix de la ville si plusieurs communes -->
+    {% if communes %}
+        <form method="post" class="form">
+            <p>Plusieurs communes trouvées :</p>
+            <label>
+                <select name="selected_city" required>
+                    {% for ville in communes %}
+                    <option value="{{ ville }}">{{ ville }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+            <button type="submit" class="button">Voir la météo</button>
+        </form>
+    {% endif %}
+
+    <!-- Affichage météo -->
+    {% if city and weather %}
+        <div class="datas">
+            <div class="reloadContainer">
+                <div class="reload"></div>
+                <div class="betweenReload"><h2>{{ city }}</h2></div>
+                <div class="reload">
+                    <form method="post">
+                        <input type="hidden" name="selected_city" value="{{ city }}">
+                        <div class="reloadButtonContainer">
+                            <button type="submit" class="reloadButton">🗘</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <p class="pInfos">Météo : {{ weather.description }}</p>
+            <p class="pInfos">Température : {{ weather.temp }}°C</p>
+            <p class="pInfos">Ressentie : {{ weather.ressentie }}°C</p>
+            <p class="pInfos">Humiditée : {{ weather.humidite }}%</p>
+            <p class="pInfos">Vent : {{ weather.vent }} km/h</p>
+        </div>
+    {% endif %}
+
+    {% if error %}
+        <p style="color:red">{{ error }}</p>
+    {% endif %}
+
+    {% if communes or city %}
+        <form method="get" action="/" class="form">
+            <button type="submit" class="button">🔙 Retour à l'accueil</button>
+        </form>
+    {% endif %}
+
+</body>
+</html>

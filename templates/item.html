@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>View item</title>
+  <link href="{{ url_for('ressources', path='/css/styles.css') }}" rel="stylesheet">
+</head>
+<body>
+  <a href="{{ url_for('catalogue') }}"><button>Retour</button></a>
+  <h2>Nom : {{ item.name }}</h2>
+  <h3>Prix : {{ item.price }} €</h3>
+</body>
+</html>
