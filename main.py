@@ -65,7 +65,7 @@ async def form_post(
     communes = []
     weather = None
 
-    if selected_city:
+    if selected_city :
         weather = modele.get_weather_from_dbb(selected_city, mydb)
         if not weather:
             error = "Erreur météo"
@@ -77,7 +77,7 @@ async def form_post(
         })
 
     elif cp:
-        communes = modele.getNomCommuneFromCodePostal(cp, mydb)
+        communes = modele.getNomCommuneCodeCommuneFromCodePostal(cp, mydb)
         if not communes:
             error = "Aucune commune trouvée pour ce code postal."
         return templates.TemplateResponse("index.html", {

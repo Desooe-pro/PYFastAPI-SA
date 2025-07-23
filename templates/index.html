@@ -30,7 +30,7 @@
             <label>
                 <select name="selected_city" required>
                     {% for ville in communes %}
-                    <option value="{{ ville }}">{{ ville }}</option>
+                    <option value="{{ ville.codeCommune }}">{{ ville.nomCommune }}</option>
                     {% endfor %}
                 </select>
             </label>
@@ -43,7 +43,7 @@
         <div class="datas">
             <div class="reloadContainer">
                 <div class="reload"></div>
-                <div class="betweenReload"><h2>{{ city }}</h2></div>
+                <div class="betweenReload"><h2>{{ weather.nom }}</h2></div>
                 <div class="reload">
                     <form method="post">
                         <input type="hidden" name="selected_city" value="{{ city }}">
